@@ -16,8 +16,8 @@ def keyPressed(app, event):
         app.pitch = False
 
 def mouseMoved(app, event):
-    print(event.x, event.y)
-    
+    app.batHeight = event.y
+
 def mousePressed(app,event):
     if event.x != 0:
         app.bat = True
@@ -54,12 +54,12 @@ def drawBaseball(app, canvas):
 
 def drawBat(app, canvas):
     if app.bat == False:
-        canvas.create_rectangle(app.width*.8, app.height*.5,
-                app.width*.81, app.height * .3, 
+        canvas.create_rectangle(app.width*.8, app.batHeight,
+                app.width*.81, app.batHeight + app.height*.1, 
                 fill = "grey")
     if app.bat == True:
         canvas.create_rectangle(app.width*.7, app.batHeight,
-                app.width*.8, app.batHeight + app.height*.01, 
+                app.width*.8, app.batHeight + app.height*.02, 
                 fill = "grey")
 
 runApp(width=800, height=800)
