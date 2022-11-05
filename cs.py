@@ -16,7 +16,10 @@ def keyPressed(app, event):
         app.pitch = False
 
 def mouseMoved(app, event):
-    app.batHeight = event.y
+    if app.bat == True:
+        return
+    else:
+        app.batHeight = event.y
 
 def mousePressed(app,event):
     if event.x != 0:
@@ -45,7 +48,7 @@ def drawBackground(app, canvas):
     canvas.create_rectangle(0, app.height*.8, app.width, app.height,
             fill = "green")
     canvas.create_arc(app.width*.1, app.height*.8, app.width*.2, 
-    app.height*.95, fill="brown", width = 60, style="arc", extent=180)
+    app.height*.95, outline="brown", width = 60, style="arc", extent=180)
 
 def drawBaseball(app, canvas):
     canvas.create_oval(app.width*.2*app.ratio + app.ballPos, app.height*.38, 
@@ -54,12 +57,17 @@ def drawBaseball(app, canvas):
 
 def drawBat(app, canvas):
     if app.bat == False:
+        canvas.create_oval(app.width*.8, app.batHeight - app.height*.02, app.width*.81, 
+                app.batHeight + app.height*.02, fill = "brown", outline = "brown")
+        canvas.create_oval(app.width*.8, app.batHeight + app.height*.08, app.width*.81, 
+                app.batHeight + app.height*.12, fill = "brown", outline = "brown")
         canvas.create_rectangle(app.width*.8, app.batHeight,
                 app.width*.81, app.batHeight + app.height*.1, 
-                fill = "grey")
+                fill = "brown", outline = "brown")
+
     if app.bat == True:
         canvas.create_rectangle(app.width*.7, app.batHeight,
                 app.width*.8, app.batHeight + app.height*.02, 
-                fill = "grey")
+                fill = "brown")
 
-runApp(width=800, height=800)
+runApp(width=1200, height=800)
