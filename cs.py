@@ -17,6 +17,8 @@ def appStarted(app):
     app.score = 0
     app.strikes = 0
     app.balls = 0
+    app.beforeImage = app.loadImage("before_pitch.png")
+    app.afterImage = app.loadImage("after_pitch.png")
 
 def keyPressed(app, event):
     if event.key == "p":
@@ -64,6 +66,7 @@ def timerFired(app):
 
 def redrawAll(app, canvas):
     drawBackground(app,canvas)
+    drawPlayer(app, canvas)
     drawBaseball(app, canvas)
     drawBat(app, canvas)
     drawScoreBoard(app,canvas)
@@ -76,22 +79,29 @@ def drawGameOver(app,canvas):
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
-    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}")
+    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}", fill="white")
     canvas.create_text(app.width*.11,app.height*.092,
-    text = f"Pitches {app.balls}" )
+    text = f"Pitches {app.balls}", fill='white' )
+
 def drawBackground(app, canvas):
-    canvas.create_rectangle(0, 0, app.width,app.height, fill = "blue")
+    canvas.create_rectangle(0, 0, app.width,app.height, fill = "light blue")
     canvas.create_rectangle(0, app.height*.8, app.width, app.height,
             fill = "green")
     canvas.create_arc(app.width*.1, app.height*.8, app.width*.2, 
     app.height*.95, outline="brown", width = 60, style="arc", extent=180)
-    canvas.create_rectangle(app.width*.1, app.height*.8, app.width*.2, app.height*.874,
-    fill="brown", outline="brown")
+    canvas.create_rectangle(app.width*.1, app.height*.8, app.width*.2, 
+    app.height*.874, outline="brown", fill="brown")
 
 def drawBaseball(app, canvas):
     canvas.create_oval(app.width*.2*app.ratio + app.ballPos, 
-    app.height*.38+app.ballPy, app.width*.24*app.ratio + app.ballPos,
-     app.height*.42 + app.ballPy,fill = "white")
+    app.height*.61+app.ballPy, app.width*.24*app.ratio + app.ballPos,
+     app.height*.65 + app.ballPy,fill = "white")
+
+def drawPlayer(app, canvas):
+    if app.pitch == True:
+        canvas.create_image(app.width*.2, app.height*.7, image = ImageTk.PhotoImage(app.beforeImage))
+    else:
+        canvas.create_image (app.width*.2, app.height*.7, image = ImageTk.PhotoImage(app.afterImage))
 
 def drawBat(app, canvas):
     if app.bat == False:
