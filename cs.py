@@ -64,10 +64,19 @@ def drawBat(app, canvas):
         canvas.create_rectangle(app.width*.8, app.batHeight,
                 app.width*.81, app.batHeight + app.height*.1, 
                 fill = "brown", outline = "brown")
+        canvas.create_rectangle(app.width*.8025, app.batHeight + app.height*.1, app.width*.8075,
+                app.batHeight + app.height*.17, fill = "brown", outline = "brown")
 
     if app.bat == True:
-        canvas.create_rectangle(app.width*.7, app.batHeight,
-                app.width*.8, app.batHeight + app.height*.02, 
-                fill = "brown")
+        canvas.create_oval(app.width*.695, app.batHeight - app.height*.01, app.width*.735, 
+                app.batHeight + app.height*.01, fill = "brown", outline = "brown")
+        canvas.create_oval(app.width*.765, app.batHeight - app.height*.01,
+                app.width*.795, app.batHeight + app.height*.01, 
+                fill = "brown", outline = "brown")
+        canvas.create_rectangle(app.width*.71, app.batHeight - app.height*.01,
+                app.width*.79, app.batHeight + app.height*.01, 
+                fill = "brown", outline = "brown")
+        canvas.create_rectangle(app.width*.79, app.batHeight - app.height*.005, 
+                app.width*.82, app.batHeight + app.height*.005, fill = "brown", outline = "brown")
 
 runApp(width=1200, height=800)
