@@ -74,9 +74,10 @@ def redrawAll(app, canvas):
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
-    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}")
+    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}", fill="white")
     canvas.create_text(app.width*.11,app.height*.092,
-    text = f"Pitches {app.balls}" )
+    text = f"Pitches {app.balls}", fill='white' )
+
 def drawBackground(app, canvas):
     canvas.create_rectangle(0, 0, app.width,app.height, fill = "light blue")
     canvas.create_rectangle(0, app.height*.8, app.width, app.height,
