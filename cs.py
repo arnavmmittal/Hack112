@@ -2,6 +2,7 @@ import math, copy, random
 from cmu_112_graphics import *
 
 def appStarted(app):
+    app.ballPy = 0
     app.ballSpeed = app.width//50
     app.ballPos = 0
     app.timerDelay = 20
@@ -14,6 +15,7 @@ def appStarted(app):
 def keyPressed(app, event):
     if event.key == "p":
         app.pitch = False
+    
 
 def mouseMoved(app, event):
     if app.bat == True:
@@ -32,6 +34,7 @@ def timerFired(app):
         return
     elif app.timePassed >= 40: 
         app.timePassed = 0
+        app.ballPy += random.randint(-10, 10)
         app.ballPos += app.ballSpeed
         if app.ballPos + app.width*.2*app.ratio > app.width:
             app.ballPos = 0
@@ -51,9 +54,9 @@ def drawBackground(app, canvas):
     app.height*.95, outline="brown", width = 60, style="arc", extent=180)
 
 def drawBaseball(app, canvas):
-    canvas.create_oval(app.width*.2*app.ratio + app.ballPos, app.height*.38, 
-            app.width*.24*app.ratio + app.ballPos, app.height*.42,
-            fill = "white")
+    canvas.create_oval(app.width*.2*app.ratio + app.ballPos, 
+    app.height*.38+app.ballPy, app.width*.24*app.ratio + app.ballPos,
+     app.height*.42 + app.ballPy,fill = "white")
 
 def drawBat(app, canvas):
     if app.bat == False:
