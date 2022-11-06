@@ -50,6 +50,10 @@ def timerFired(app):
     app.timePassed += app.timerDelay
     if app.pitch == True:
         return
+<<<<<<< HEAD
+=======
+
+>>>>>>> 60091a19c141c404512436cdfb38759f5696c198
     elif app.timePassed >= 40 and app.isHit == False: 
         app.timePassed = 0
         app.ballPy += random.randint(-10, 10)
@@ -80,10 +84,19 @@ def redrawAll(app, canvas):
     drawBaseball(app, canvas)
     drawBat(app, canvas)
     drawScoreBoard(app,canvas)
+<<<<<<< HEAD
     if app.gameOver == True:
         drawGameOver(app,canvas)
     
 
+=======
+    if app.balls >= 10:
+        drawGameOver(app,canvas)
+        return
+def drawGameOver(app,canvas):
+    canvas.create_text(app.width/2,app.height/2,text = "Game Over"
+    ,font = "Arial 50")
+>>>>>>> 60091a19c141c404512436cdfb38759f5696c198
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
@@ -97,8 +110,8 @@ def drawBackground(app, canvas):
             fill = "green")
     canvas.create_arc(app.width*.1, app.height*.8, app.width*.2, 
     app.height*.95, outline="brown", width = 60, style="arc", extent=180)
-    canvas.create_rectangle(app.width*.1, app.height*.8, app.width*.2, app.height*.874,
-    fill="brown", outline="brown")
+    canvas.create_rectangle(app.width*.1, app.height*.8, app.width*.2, 
+    app.height*.874, outline="brown", fill="brown")
 
 def drawBaseball(app, canvas):
     canvas.create_oval(app.width*.2*app.ratio + app.ballPos, 
