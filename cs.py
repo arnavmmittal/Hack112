@@ -19,6 +19,7 @@ def appStarted(app):
     app.balls = 0
     app.beforeImage = app.loadImage("before_pitch.png")
     app.afterImage = app.loadImage("after_pitch.png")
+    app.catcher = app.loadImage("catcher.png")
     app.gameOver = False
 
 def keyPressed(app, event):
@@ -107,6 +108,7 @@ def drawBaseball(app, canvas):
             app.width*.79,  app.batHeight + app.height*.1)
 
 def drawPlayer(app, canvas):
+    canvas.create_image(app.width*.8, app.height*.8, image = ImageTk.PhotoImage(app.catcher))
     if app.pitch == True:
         canvas.create_image(app.width*.2, app.height*.7, image = ImageTk.PhotoImage(app.beforeImage))
     else:
@@ -116,7 +118,7 @@ def drawGameOver(app, canvas):
     canvas.create_rectangle(0, app.height *.4, app.width, app.height*.6,
              fill = "grey")
     canvas.create_text(app.width*.5,app.height*.5,
-            text = "Game Over \n press r to restart", fill = "grey")
+            text = "Game Over\nPress r to restart", fill = "black", font = "Arial 50")
 
 def drawBat(app, canvas):
     if app.bat == False:
