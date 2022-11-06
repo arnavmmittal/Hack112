@@ -3,7 +3,7 @@ from cmu_112_graphics import *
 
 def appStarted(app):
     app.ballPy = 0
-    app.ballSpeed = app.width//50
+    app.ballSpeed = app.width//40
     app.ballPos = 0
     app.timerDelay = 20
     app.timePassed = 0
@@ -50,15 +50,11 @@ def timerFired(app):
     app.timePassed += app.timerDelay
     if app.pitch == True:
         return
-<<<<<<< HEAD
-=======
-
->>>>>>> 60091a19c141c404512436cdfb38759f5696c198
     elif app.timePassed >= 40 and app.isHit == False: 
         app.timePassed = 0
         app.ballPy += random.randint(-10, 10)
         app.ballPos += app.ballSpeed * (-1)**(app.expo)
-        if app.ballPos + app.width*.2*app.ratio > app.width:
+        if app.ballPos + app.width*.2*app.ratio > app.width*.85:
             app.ballPos = 0
             app.pitch = True
             app.bat = False
@@ -84,19 +80,12 @@ def redrawAll(app, canvas):
     drawBaseball(app, canvas)
     drawBat(app, canvas)
     drawScoreBoard(app,canvas)
-<<<<<<< HEAD
-    if app.gameOver == True:
-        drawGameOver(app,canvas)
-    
-
-=======
     if app.balls >= 10:
         drawGameOver(app,canvas)
         return
 def drawGameOver(app,canvas):
     canvas.create_text(app.width/2,app.height/2,text = "Game Over"
     ,font = "Arial 50")
->>>>>>> 60091a19c141c404512436cdfb38759f5696c198
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
@@ -158,9 +147,6 @@ def drawBat(app, canvas):
         canvas.create_rectangle(app.width*.79, app.batHeight - app.height*.005, 
                 app.width*.82, app.batHeight + app.height*.005, fill = "brown", outline = "brown")
 def isCollision(app):
-    # if (app.ballPy + app.height/2 - 80>= app.batHeight - app.height*.01 #Height
-    # and app.ballPy + app.height/2 - 80<= app.batHeight + app.height*.01
-    # and app.ballPos >= app.width*.69 and app.bat):
     if(app.width*.71 <= app.ballPy + app.width*.2*app.ratio + app.ballPos and
             app.batHeight <= app.height*.61+app.ballPy and
             app.width*.79 >= app.width*.24*app.ratio + app.ballPos
