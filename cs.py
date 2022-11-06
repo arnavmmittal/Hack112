@@ -40,7 +40,7 @@ def timerFired(app):
     app.timePassed += app.timerDelay
     if app.pitch == True:
         return
-    
+
     elif app.timePassed >= 40 and app.isHit == False: 
         app.timePassed = 0
         app.ballPy += random.randint(-10, 10)
@@ -70,7 +70,12 @@ def redrawAll(app, canvas):
     drawBaseball(app, canvas)
     drawBat(app, canvas)
     drawScoreBoard(app,canvas)
-
+    if app.balls >= 10:
+        drawGameOver(app,canvas)
+        return
+def drawGameOver(app,canvas):
+    canvas.create_text(app.width/2,app.height/2,text = "Game Over"
+    ,font = "Arial 50")
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
