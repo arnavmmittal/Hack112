@@ -19,10 +19,14 @@ def appStarted(app):
     app.balls = 0
     app.beforeImage = app.loadImage("before_pitch.png")
     app.afterImage = app.loadImage("after_pitch.png")
+    app.gameOver = False
 
 def keyPressed(app, event):
     if event.key == "p":
         app.pitch = False
+    if event.key == "r":
+        app.gameOver = False
+        appStarted(app)
     
 
 def mouseMoved(app, event):
@@ -37,10 +41,13 @@ def mousePressed(app,event):
         app.batHeight = event.y
 
 def timerFired(app):
+    if app.gameOver == True:
+        return
+    if app.balls >= 10:
+        app.gameOver = True
     app.timePassed += app.timerDelay
     if app.pitch == True:
         return
-    
     elif app.timePassed >= 40 and app.isHit == False: 
         app.timePassed = 0
         app.ballPy += random.randint(-10, 10)
@@ -50,6 +57,7 @@ def timerFired(app):
             app.pitch = True
             app.bat = False
             app.balls += 1
+            app.ballPy = 0
     if isCollision(app):
         collision(app)
     if app.isHit:
@@ -70,13 +78,17 @@ def redrawAll(app, canvas):
     drawBaseball(app, canvas)
     drawBat(app, canvas)
     drawScoreBoard(app,canvas)
+    if app.gameOver == True:
+        drawGameOver(app,canvas)
+    
 
 def drawScoreBoard(app,canvas):
     canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
     fill = 'black')
-    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}")
+    canvas.create_text(app.width*.11,app.height*.075,
+            text = f"HomeRuns: {app.score}", fill = "white")
     canvas.create_text(app.width*.11,app.height*.092,
-    text = f"Pitches {app.balls}" )
+            text = f"Pitches {app.balls}", fill = "white")
 def drawBackground(app, canvas):
     canvas.create_rectangle(0, 0, app.width,app.height, fill = "light blue")
     canvas.create_rectangle(0, app.height*.8, app.width, app.height,
@@ -89,13 +101,22 @@ def drawBackground(app, canvas):
 def drawBaseball(app, canvas):
     canvas.create_oval(app.width*.2*app.ratio + app.ballPos, 
     app.height*.61+app.ballPy, app.width*.24*app.ratio + app.ballPos,
-     app.height*.65 + app.ballPy,fill = "white")
+    app.height*.65 + app.ballPy,fill = "white")
+    # drawing hitting box
+    canvas.create_rectangle(app.width*.71, app.batHeight, 
+            app.width*.79,  app.batHeight + app.height*.1)
 
 def drawPlayer(app, canvas):
     if app.pitch == True:
         canvas.create_image(app.width*.2, app.height*.7, image = ImageTk.PhotoImage(app.beforeImage))
     else:
         canvas.create_image (app.width*.2, app.height*.7, image = ImageTk.PhotoImage(app.afterImage))
+
+def drawGameOver(app, canvas):
+    canvas.create_rectangle(0, app.height *.4, app.width, app.height*.6,
+             fill = "grey")
+    canvas.create_text(app.width*.5,app.height*.5,
+            text = "Game Over \n press r to restart", fill = "grey")
 
 def drawBat(app, canvas):
     if app.bat == False:
@@ -121,9 +142,14 @@ def drawBat(app, canvas):
         canvas.create_rectangle(app.width*.79, app.batHeight - app.height*.005, 
                 app.width*.82, app.batHeight + app.height*.005, fill = "brown", outline = "brown")
 def isCollision(app):
-    if (app.ballPy + app.height/2 - 80>= app.batHeight - app.height*.01 #Height
-    and app.ballPy + app.height/2 - 80<= app.batHeight + app.height*.01
-    and app.ballPos >= app.width*.69 and app.bat):
+    # if (app.ballPy + app.height/2 - 80>= app.batHeight - app.height*.01 #Height
+    # and app.ballPy + app.height/2 - 80<= app.batHeight + app.height*.01
+    # and app.ballPos >= app.width*.69 and app.bat):
+    if(app.width*.71 <= app.ballPy + app.width*.2*app.ratio + app.ballPos and
+            app.batHeight <= app.height*.61+app.ballPy and
+            app.width*.79 >= app.width*.24*app.ratio + app.ballPos
+            and app.batHeight + app.height*.1 >= app.height*.65 + app.ballPy
+            and app.bat):
         app.isHit = True
         return True
     else:
