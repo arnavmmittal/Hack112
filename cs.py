@@ -80,6 +80,8 @@ def drawBackground(app, canvas):
             fill = "green")
     canvas.create_arc(app.width*.1, app.height*.8, app.width*.2, 
     app.height*.95, outline="brown", width = 60, style="arc", extent=180)
+    canvas.create_rectangle(app.width*.1, app.height*.8, app.width*.2, app.height*.874,
+    fill="brown", outline="brown")
 
 def drawBaseball(app, canvas):
     canvas.create_oval(app.width*.2*app.ratio + app.ballPos, 
