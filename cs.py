@@ -13,6 +13,10 @@ def appStarted(app):
     app.batHeight = app.height//2
     app.expo = 2
     app.hit = 0
+    app.isHit = False
+    app.score = 0
+    app.strikes = 0
+    app.balls = 0
 
 def keyPressed(app, event):
     if event.key == "p":
@@ -34,7 +38,8 @@ def timerFired(app):
     app.timePassed += app.timerDelay
     if app.pitch == True:
         return
-    elif app.timePassed >= 40: 
+    
+    elif app.timePassed >= 40 and app.isHit == False: 
         app.timePassed = 0
         app.ballPy += random.randint(-10, 10)
         app.ballPos += app.ballSpeed * (-1)**(app.expo)
@@ -42,14 +47,33 @@ def timerFired(app):
             app.ballPos = 0
             app.pitch = True
             app.bat = False
+            app.balls += 1
     if isCollision(app):
         collision(app)
+    if app.isHit:
+        app.ballPos += app.ballSpeed * (-1)**(app.expo)
+        app.ballPy += -20
+        if app.ballPos + app.width*.2*app.ratio < 0:
+            app.ballPos = 0
+            app.pitch = True
+            app.ballPy = 0
+            app.bat = False
+            app.isHit = False
+            app.expo = 2
+            app.balls += 1
 
 def redrawAll(app, canvas):
     drawBackground(app,canvas)
     drawBaseball(app, canvas)
     drawBat(app, canvas)
+    drawScoreBoard(app,canvas)
 
+def drawScoreBoard(app,canvas):
+    canvas.create_rectangle(0,0,app.width*.22,app.height*.15,
+    fill = 'black')
+    canvas.create_text(app.width*.11,app.height*.075,text = f"HomeRuns: {app.score}")
+    canvas.create_text(app.width*.11,app.height*.092,
+    text = f"Pitches {app.balls}" )
 def drawBackground(app, canvas):
     canvas.create_rectangle(0, 0, app.width,app.height, fill = "blue")
     canvas.create_rectangle(0, app.height*.8, app.width, app.height,
@@ -86,16 +110,16 @@ def drawBat(app, canvas):
         canvas.create_rectangle(app.width*.79, app.batHeight - app.height*.005, 
                 app.width*.82, app.batHeight + app.height*.005, fill = "brown", outline = "brown")
 def isCollision(app):
-    if (app.ballPy + app.height/2 - 60>= app.batHeight - app.height*.01 #Height
-    and app.ballPy + app.height/2 - 60<= app.batHeight + app.height*.01
+    if (app.ballPy + app.height/2 - 80>= app.batHeight - app.height*.01 #Height
+    and app.ballPy + app.height/2 - 80<= app.batHeight + app.height*.01
     and app.ballPos >= app.width*.69 and app.bat):
-    
-        print("True")
+        app.isHit = True
         return True
     else:
         return False
 def collision(app):
     app.expo = 1
+    app.score += 1
 
 
 runApp(width=1200, height=800)
